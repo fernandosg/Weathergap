@@ -50,10 +50,21 @@ under the License.
       </div>
       <a class="btn pull-right icon icon-settings" href="#!configuration"></a>
     </header>
+    <section class="content">
+      <p>
+        <h2 for="temperature-today">Temperature today:</h2><span id="temperature-today" class="temperature-today"></span>
+      </p>
+      <p>
+        <h2 for="condition-today">Condition: </h2>
+        <span id="condition-today" class="condition-today"></span>
+        <img class="icon-condition"/>
+      </p>
+    </section>
   </home>
   <!-- for the second page, Phonon will load its content. -->
   <configuration data-page="true"></configuration>
   <script type="text/javascript" src="cordova.js"></script>
+  <script src="js/key.js"></script>
   <script src="js/phonon.js"></script>
 
   <!-- our app config -->
