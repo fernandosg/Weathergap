@@ -23,6 +23,7 @@ app.on({page: 'home', preventClose: false, content: null},function(activity){
 
   activity.onCreate(function() {
     getInformationApi();
+    localStorage.setItem("detection","city");
   });
 
   function getInformationApi(){
@@ -53,6 +54,16 @@ app.on({page: 'home', preventClose: false, content: null},function(activity){
   activity.onHidden(function() {
       action = null;
   });
+  var state_before="city";
+  /*
+    If the user has change the detection setting, then the weather information is getting again from API
+  */
+  activity.onReady(function(){
+    if(localStorage.getItem("detection")!=state_before){
+      getInformationApi();
+      state_before=localStorage.getItem("detection");
+    }
+  })
 
   activity.onHashChanged(function(pizza) {
       //document.querySelector('.pizza').textContent = pizza;
@@ -100,6 +111,7 @@ app.on({page: 'configuration', preventClose: true, content: 'configuration.html'
     activity.onHidden(function() {
         action = null;
     });
+
 
     activity.onHashChanged(function(pizza) {
         //document.querySelector('.pizza').textContent = pizza;
