@@ -16,7 +16,50 @@ var app = phonon.navigator();
  * For the home page, we do not need to perform actions during
  * page events such as onCreate, onReady, etc
 */
-app.on({page: 'home', preventClose: false, content: null});
+app.on({page: 'home', preventClose: false, content: null},function(activity){
+  var onAction = function(evt) {
+
+  };
+
+  activity.onCreate(function() {
+    getInformationApi();
+  });
+
+  function getInformationApi(){
+    var url="http://api.apixu.com/v1/current.json?"
+    url+="key="+key+"&";
+    url+="q=Panuco";
+    xmlHTTP=new XMLHttpRequest();
+    xmlHTTP.onreadystatechange=processWeather;
+    xmlHTTP.open("GET",url,true);
+    xmlHTTP.send();
+  }
+
+  function processWeather(){
+    var output="";
+    if(xmlHTTP.readyState==4){
+      var jsonResult=xmlHTTP.responseText;
+      var result=JSON.parse(jsonResult);
+      console.dir(result);
+      console.dir(document.querySelector('.temperature-today'));
+      document.querySelector('.temperature-today').innerHTML=""+result.current.temp_c;
+      document.querySelector(".condition-today").innerHTML=""+result.current.condition.text;
+      document.querySelector('.icon-condition').src=result.current.condition.icon;
+    }
+  }
+
+  activity.onClose(function(self) {
+      self.close();
+  });
+
+  activity.onHidden(function() {
+      action = null;
+  });
+
+  activity.onHashChanged(function(pizza) {
+      //document.querySelector('.pizza').textContent = pizza;
+  });
+});
 
 /**
  * However, on the second page, we want to define the activity scope.
