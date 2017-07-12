@@ -40,11 +40,9 @@ app.on({page: 'home', preventClose: false, content: null},function(activity){
     if(xmlHTTP.readyState==4){
       var jsonResult=xmlHTTP.responseText;
       var result=JSON.parse(jsonResult);
-      console.dir(result);
-      console.dir(document.querySelector('.temperature-today'));
       document.querySelector('.temperature-today').innerHTML=""+result.current.temp_c;
       document.querySelector(".condition-today").innerHTML=""+result.current.condition.text;
-      document.querySelector('.icon-condition').src=result.current.condition.icon;
+      document.querySelector('.icon-condition').src="http:"+result.current.condition.icon;
     }
   }
 
@@ -78,7 +76,22 @@ app.on({page: 'configuration', preventClose: true, content: 'configuration.html'
     };
 
     activity.onCreate(function() {
+      document.getElementById("btnSaveSettings").addEventListener("click",saveSetting);
     });
+
+    var saveSetting=function(e){
+      var value_detecting;
+      var values_detecting = document.getElementsByName('value_detecting');
+      for(var i = 0; i < values_detecting.length; i++)
+          if(values_detecting[i].checked){
+              value_detecting = values_detecting[i].value;
+              break;
+          }
+      var alert = phonon.alert("Configuration saved ", "Changes in configuration", true, "Accept");
+      alert.on('confirm', function() {
+      } );
+      localStorage.setItem("detection",value_detecting);
+    }
 
     activity.onClose(function(self) {
         self.close();
