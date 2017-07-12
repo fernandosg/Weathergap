@@ -20,10 +20,10 @@ app.on({page: 'home', preventClose: false, content: null},function(activity){
   var onAction = function(evt) {
 
   };
-
+  var creating=false;
   activity.onCreate(function() {
     getInformationApi();
-    localStorage.setItem("detection","city");
+    creating=true;
   });
 
   function getInformationApi(){
@@ -59,10 +59,11 @@ app.on({page: 'home', preventClose: false, content: null},function(activity){
     If the user has change the detection setting, then the weather information is getting again from API
   */
   activity.onReady(function(){
-    if(localStorage.getItem("detection")!=state_before){
+    if(creating===false && localStorage.getItem("detection")!=state_before){
       getInformationApi();
-      state_before=localStorage.getItem("detection");
-    }
+    }else
+      creating=false;
+    state_before=localStorage.getItem("detection");
   })
 
   activity.onHashChanged(function(pizza) {
@@ -88,6 +89,11 @@ app.on({page: 'configuration', preventClose: true, content: 'configuration.html'
 
     activity.onCreate(function() {
       document.getElementById("btnSaveSettings").addEventListener("click",saveSetting);
+      var options_for_detection=  document.getElementsByName("value_detecting");
+      if(localStorage.getItem("detection")=="city")
+        options_for_detection[0].checked=true;
+      else
+        options_for_detection[1].checked=true;
     });
 
     var saveSetting=function(e){
