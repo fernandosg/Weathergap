@@ -10,6 +10,21 @@ phonon.options({
 
 
 var app = phonon.navigator();
+document.addEventListener( 'deviceready', app_init, false );
+
+function app_init(){
+  //navigator.notification.alert( 'app iniciado', false, "Aviso", 'Ok' );
+
+  document.addEventListener( 'backbutton', 	app_backbutton, false );
+}
+
+function app_backbutton(){
+  if( phonon.navigator().currentPage == 'home' ){
+    navigator.app.exitApp();
+  }else{
+    //history.back();
+  }
+}
 
 /**
 * The activity scope is not mandatory.
