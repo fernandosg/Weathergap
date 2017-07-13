@@ -58,15 +58,19 @@ function homeActivity(activity){
     if(creating===false && localStorage.getItem("detection")!=state_before){
       if(localStorage.getItem("detection")=="geoposition"){
         getPosition();
-        console.log("fue por geoposition ");
       }else {
         city_for_weather=localStorage.getItem("city_for_weather");
-        console.log("fue por ciudad "+city_for_weather);
         getInformationApi();
         changeTitleWeatherToday("city saved or default")
       }
-    }else
+    }else{
       creating=false;
+      if(localStorage.getItem("city_for_weather")!=city_for_weather){
+        city_for_weather=localStorage.getItem("city_for_weather");
+        getInformationApi();
+        changeTitleWeatherToday("city saved or default")
+      }
+    }
     state_before=localStorage.getItem("detection");
   })
 
