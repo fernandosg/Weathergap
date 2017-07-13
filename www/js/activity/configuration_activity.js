@@ -10,8 +10,6 @@ function configurationActivity(activity) {
   Function for handle the change in radio buttons for settings configuration
   */
   var onChangeOption=function(e){
-    console.log("Cambiiiieeee =)");
-    console.dir(e);
     if(e.target.value=="city")
       document.getElementById("container_city_name").style="display:block";
     else
@@ -24,6 +22,7 @@ function configurationActivity(activity) {
     if(localStorage.getItem("detection")=="city"){
       options_for_detection[0].checked=true;
       document.getElementById("container_city_name").style="display:block";
+      document.getElementById("city_name").value=localStorage.getItem("city_for_weather");
     }else
       options_for_detection[1].checked=true;
   });
@@ -37,12 +36,13 @@ function configurationActivity(activity) {
   var saveSetting=function(e){
     var value_detecting;
     var values_detecting = document.getElementsByName('value_detecting');
-    for(var i = 0; i < values_detecting.length; i++)
-    if(values_detecting[i].checked){
-      if(value_detecting=="city")
-        localStorage.setItem("city_for_weather",document.getElementById("city_name").value);
-      value_detecting = values_detecting[i].value;
-      break;
+    for(var i = 0; i < values_detecting.length; i++){
+      if(values_detecting[i].checked){
+        if(values_detecting[i].value=="city")
+          localStorage.setItem("city_for_weather",document.getElementById("city_name").value);
+        value_detecting = values_detecting[i].value;
+        break;
+      }
     }
     var alert = phonon.alert("Configuration saved ", "Changes in configuration", true, "Accept");
     alert.on('confirm', function() {
