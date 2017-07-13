@@ -1,3 +1,4 @@
 bower_components
 www/js/key.js
 platforms/browser/www/js/key.js
+platforms/android/
